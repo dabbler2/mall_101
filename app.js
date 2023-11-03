@@ -13,5 +13,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(process.env.PORT || 3000, () => {
-    console.log(process.env.PORT, '서버 접속 성공.')
+    console.log('서버 접속 성공.')
 })
