@@ -9,9 +9,9 @@ app.use(express.json())
 
 app.use('/', [prodRouter])
 app.get('/', (req, res) => {
-    res.send('Hi')
+    res.send('Welcome to mall_101')
 })
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT, () => {
     console.log('서버 접속 성공.')
 })
