@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 8888
-const prodRouter = require('./routes/products.router')
+const prodRouter = require("./routes/products.router")
 const connect = require("./schemas")
 
 connect()

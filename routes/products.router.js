@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Products = require("../schemas/products.schema")
+//const {MongoServerError} = require('mongodb')
 
 // 상품 조회
 router.get('/prodList', async(req,res) => {
@@ -38,7 +39,7 @@ router.post('/uploadProd', async(req,res) => {
 		const createProd = await Products.create({prodName,writerID,password,comment,availability,writtenTime:new Date().toISOString().replace('T',' ').slice(0,19)})
 		res.json({product: createProd})
 	}catch(e){
-		console.log(e)
+		//console.log(e instanceof MongoServerError)
 		res.json({success: false, errorMessage: "이미 같은 이름의 상품이 있습니다."})
 	}
 })
