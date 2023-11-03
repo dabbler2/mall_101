@@ -10,12 +10,13 @@ router.get('/prodList', async(req,res) => {
 		const {prodName,writerID,availability,writtenTime} = prod
 		return {prodName,writerID,availability,writtenTime}
 	})
+	prodCards.sort((a,b) => (a.writtenTime<b.writtenTime)-(b.writtenTime<a.writtenTime))
 	res.json({products: prodCards})
 })
 
 // 상품 상세 조회
 router.get('/prodList/:prodName', async(req,res) => {
-	const prodName = decodeURIComponent(req.params.prodName) // decodeURIComponent로 한글 등 처리
+	const prodName = req.params.prodName
 	const existsProd = await Products.find({prodName})
 	if(existsProd.length){
 		const {prodName,writerID,availability,writtenTime,comment} = existsProd[0]
@@ -37,7 +38,7 @@ router.post('/uploadProd', async(req,res) => {
 	const availability = true
 	try{
 		const createProd = await Products.create({prodName,writerID,password,comment,availability,writtenTime:new Date().toISOString().replace('T',' ').slice(0,19)})
-		res.json({product: createProd})
+		res.json({success: true, message: "상품 등록이 완료되었습니다."})
 	}catch(e){
 		//console.log(e instanceof MongoServerError)
 		res.json({success: false, errorMessage: "이미 같은 이름의 상품이 있습니다."})
@@ -59,7 +60,7 @@ router.put('/prodList', async (req,res) => {
 		availability = availability===undefined? prodName.availability:Boolean(availability)
 		await Products.updateOne({prodName},{$set: {availability,comment}})
 	}
-	else return res.status(400).json({success: false, errorMessage: "해당 상품이 없습니다."})
+	else return res.status(400).json({success: false, errorMessage: "해당 상품이 존재하지 않습니다."})
 	res.json({success: true, message: "상품 정보 수정이 완료되었습니다."})
 })
 
@@ -76,7 +77,7 @@ router.delete('/prodList', async (req,res) => {
 			return res.status(400).json({success: false, errorMessage: "비밀번호가 일치하지 않습니다."})
 		await Products.deleteOne({prodName})
 	}
-	else return res.status(400).json({success: false, errorMessage: "해당 상품이 없습니다."})
+	else return res.status(400).json({success: false, errorMessage: "해당 상품이 존재하지 않습니다."})
 	res.json({success: true, message: "상품 삭제가 완료되었습니다."})
 })
 
