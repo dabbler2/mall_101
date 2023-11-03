@@ -8,23 +8,27 @@ const prodSchema = new mongoose.Schema({
     },
     writerID: {
         type: String,
-        required: true,
+        required: true
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     availability: {
         type: Boolean,
-        required: true,
+        required: true
     },
     comment: {
-        type: String,
+        type: String
     },
     writtenTime: {
         type: String,
-        required: true,
+        required: true
     },
+	lastEditTime: {
+		type: String,
+		required: true
+	}
 })
 
 module.exports = mongoose.model('Product', prodSchema)
