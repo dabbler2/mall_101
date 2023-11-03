@@ -1,8 +1,8 @@
 const express = require('express')
 const app = express()
-const port = 8888
 const prodRouter = require('./routes/products.router')
 const connect = require('./schemas')
+require('dotenv').config()
 
 connect()
 app.use(express.json())
@@ -12,6 +12,6 @@ app.get('/', (req, res) => {
     res.send('Hi')
 })
 
-app.listen(port, () => {
-    console.log(port, '포트로 서버가 열렸어요!')
+app.listen(process.env.PORT || 3000, () => {
+    console.log('서버 접속 성공.')
 })
