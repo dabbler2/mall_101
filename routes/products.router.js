@@ -24,7 +24,7 @@ router.get('/prodList', async(req,res) => {
 // 상품 상세 조회
 router.get('/prodList/:prodID', async(req,res) => {
 	const prodID = req.params.prodID
-	const existsProd = await Products.find({prodID})
+	const existsProd = await Products.find({prodID}).limit(1)
 	if(existsProd.length){
 		const {prodID,prodName,writerID,availability,writtenTime,lastEditTime,comment} = existsProd[0]
 		res.json({prodID,prodName,writerID,availability:(availability? "FOR_SALE":"SOLD_OUT"),writtenTime,lastEditTime,comment})
@@ -59,7 +59,7 @@ router.put('/prodList/:prodID', async (req,res) => {
 	let {availability,password,comment} = req.body
 	if(!password)
 		return res.status(400).json({success: false, errorMessage: "비밀번호를 입력해주세요."})
-	const existsProd = await Products.find({prodID})
+	const existsProd = await Products.find({prodID}).limit(1)
 	if(!existsProd.length)
 		return res.status(400).json({success: false, errorMessage: "해당 상품이 존재하지 않습니다."})
 	if(existsProd[0].password!==password)
