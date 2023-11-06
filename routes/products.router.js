@@ -71,14 +71,14 @@ router.put('/prodList/:prodID', async (req,res) => {
 })
 
 // 상품 삭제
-router.delete('/prodList/:prodName', async (req,res) => {
-	const prodID = req.params.prodName
+router.delete('/prodList/:prodID', async (req,res) => {
+	const prodID = req.params.prodID
 	if(!prodID)
 		return res.status(400).json({success: false, errorMessage: "상품 ID를 입력해주세요."})
 	const {password} = req.body
 	if(!password)
 		return res.status(400).json({success: false, errorMessage: "비밀번호를 입력해주세요."})
-	const existsProd = await Products.find({prodID})
+	const existsProd = await Products.find({prodName:prodID})
 	if(!existsProd.length)
 		return res.status(400).json({success: false, errorMessage: "해당 상품이 존재하지 않습니다."})
 	if(existsProd[0].password!==password)
