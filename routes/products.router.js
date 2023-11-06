@@ -65,7 +65,7 @@ router.put('/prodList/:prodID', async (req,res) => {
 	if(existsProd[0].password!==password)
 		return res.status(400).json({success: false, errorMessage: "비밀번호가 일치하지 않습니다."})
 	comment ||= ''
-	availability = availability===undefined? prodName.availability:Boolean(availability)
+	availability = availability===undefined? prodID.availability:Boolean(availability)
 	await Products.updateOne({prodID},{$set: {availability,comment,lastEditTime:new Date().toLocaleString('sv')}})
 	res.json({success: true, message: "상품 정보 수정이 완료되었습니다."})
 })
