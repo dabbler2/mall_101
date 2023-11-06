@@ -78,12 +78,12 @@ router.delete('/prodList/:prodID', async (req,res) => {
 	const {password} = req.body
 	if(!password)
 		return res.status(400).json({success: false, errorMessage: "비밀번호를 입력해주세요."})
-	const existsProd = await Products.find({prodName:prodID})
+	const existsProd = await Products.find({prodID})
 	if(!existsProd.length)
 		return res.status(400).json({success: false, errorMessage: "해당 상품이 존재하지 않습니다."})
 	if(existsProd[0].password!==password)
 		return res.status(400).json({success: false, errorMessage: "비밀번호가 일치하지 않습니다."})
-	await Products.deleteOne({prodName:prodID})
+	await Products.deleteOne({prodID})
 	res.json({success: true, message: "상품 삭제가 완료되었습니다."})
 })
 
